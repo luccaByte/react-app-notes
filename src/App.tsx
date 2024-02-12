@@ -1,4 +1,8 @@
 export function App() {
-    return <h1>Olá mundo</h1>
+    return (
+        <h1 className="text-3xl font-bold underline">
+            Hello world!
+        </h1>
+    )
 }
 
