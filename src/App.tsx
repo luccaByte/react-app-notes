@@ -2,6 +2,11 @@ import logo from './assets/books-icon.png';
 import { NewNoteCard } from './components/new-note-card';
 import { NoteCard } from './components/note-card';
 
+const note = {
+    date: new Date(),
+    content: 'Olá mundo'
+}
+
 export function App() {
     return (
         <div className="mx-auto max-w-6xl my-12 space-y-6">
@@ -22,7 +27,7 @@ export function App() {
                 
                 <NewNoteCard />
 
-                <NoteCard date={new Date()} content='Olá mundo'/>
+                <NoteCard note={note} />
             </div>
         </div>
     )
