@@ -1,6 +1,6 @@
 # App de notas
 
-Um pequeno projeto para um aplicativo de notas feito em React onde você pode gravar notas utilizando texto ou gravar um áudio.
+Um pequeno projeto para um aplicativo de notas feito em React onde você pode gravar notas utilizando texto ou gravando um áudio que será convertido em texto automaticamente.
 
 
 
