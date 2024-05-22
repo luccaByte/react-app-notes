@@ -1,31 +1,38 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { toast } from 'sonner'
+import { toast } from "sonner";
 
-export function NewNoteCard () {
+interface NewNoteCardProps {
+    onNoteCreated: (content: string) => void
+}
+
+export function NewNoteCard ({ onNoteCreated }: NewNoteCardProps) {
 
     // uma variavel que vai armazenar algo sim ou nao
-    const [sholdShowOnboarding, setSholdShowOnboarding] = useState(true)
+    const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
     const [content, setContent] = useState('')
 
-    function handleStartEditor() {
-        setSholdShowOnboarding(false)
-    }
+  function handleStartEditor() {
+    setShouldShowOnboarding(false);
+  }
 
     // caso não tenha nada no textarea, volta ao estado padrao
     function handleContentChanged (e: ChangeEvent<HTMLTextAreaElement>){
         setContent(e.target.value)
 
-        if ((e.target.value) === '') {
-            setSholdShowOnboarding(true)
+        if (e.target.value === '') {
+            setShouldShowOnboarding(true)
         }
     }
 
     function handleSaveNote(e: FormEvent){
         e.preventDefault()
     
-        console.log(content)
+        onNoteCreated(content)
+
+        setContent('')
+        setShouldShowOnboarding(true)
 
         toast.success('Nota criada com sucesso!')
     }
@@ -56,7 +63,7 @@ export function NewNoteCard () {
 
                             {/* IF TERNÁRIO */}
 
-                            {sholdShowOnboarding 
+                            {shouldShowOnboarding 
                                 ? 
                                 (<p className='text-sm leading-6 text-slate-400'>
                                     Comece <button className="font-medium text-lime-400 hover:underline">gravando uma nota</button> em áudio ou se preferir <button onClick={handleStartEditor} className="font-medium text-lime-400 hover:underline">utilize apenas texto</button>.
@@ -66,12 +73,13 @@ export function NewNoteCard () {
                                     autoFocus
                                     className="text-sm leading-6 text-slate400 bg-transparent resize-none flex-1 outline-none"
                                     onChange={handleContentChanged}
+                                    value={content}
                                 />)
                             }
                         </div>
 
                         <button 
-                            type="button" 
+                            type="submit" 
                             className="w-full bg-lime-400 py-4 font-medium text-center text-sm text-lime-950 outline-none hover:bg-lime-500"
                         >
                             Salvar nota
