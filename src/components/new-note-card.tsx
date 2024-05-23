@@ -7,6 +7,8 @@ interface NewNoteCardProps {
     onNoteCreated: (content: string) => void
 }
 
+let speechRecognition: SpeechRecognition | null = null
+
 export function NewNoteCard ({ onNoteCreated }: NewNoteCardProps) {
 
     // uma variavel que vai armazenar algo sim ou nao
@@ -43,8 +45,6 @@ export function NewNoteCard ({ onNoteCreated }: NewNoteCardProps) {
     }
 
     function handleStartRecording() {
-        setIsRecording(true)
-
         // verificando se o navegador tem speechrecognition API
         const isSpeechRecognitionAPIAvaliable = 'SpeechRecognition' in window
         || 'webkitSeechRecognition' in window
@@ -54,9 +54,13 @@ export function NewNoteCard ({ onNoteCreated }: NewNoteCardProps) {
             return
         }
 
+        
+        setIsRecording(true)
+        setShouldShowOnboarding(false)
+
         const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition
 
-        const speechRecognition = new SpeechRecognitionAPI()
+        speechRecognition = new SpeechRecognitionAPI()
 
         speechRecognition.lang = 'pt-BR'
         speechRecognition.continuous = true
@@ -64,7 +68,11 @@ export function NewNoteCard ({ onNoteCreated }: NewNoteCardProps) {
         speechRecognition.interimResults = true
 
         speechRecognition.onresult = (e) => {
-            console.log(e.results)
+            const transcription = Array.from(e.results).reduce((text, result) => {
+                return text.concat(result[0].transcript)
+            }, '')
+
+            setContent(transcription)
         }
 
         speechRecognition.onerror = (e) => {
@@ -76,6 +84,10 @@ export function NewNoteCard ({ onNoteCreated }: NewNoteCardProps) {
 
     function handleStopRecording() {
         setIsRecording(false)
+
+        if (speechRecognition != null) {
+            speechRecognition.stop()
+        }
     }
 
     return (
