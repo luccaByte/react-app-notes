@@ -15,3 +15,4 @@ Um pequeno projeto para um aplicativo de notas feito em React onde você pode gr
 - [Radix-ui](https://www.radix-ui.com/)
 - [Lucide](https://lucide.dev/guide/packages/lucide-react)
 - [Sonner](https://sonner.emilkowal.ski/)
+- [SpeechRecognitionAPI](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition)
